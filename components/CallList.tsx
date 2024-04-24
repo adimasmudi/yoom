@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 'use client';
 import { useGetCalls } from '@/hooks/useGetCalls';
 import { Call, CallRecording } from '@stream-io/video-react-sdk';
@@ -64,20 +62,22 @@ const CallList = ({ type }: { type: 'ended' | 'upcoming' | 'recordings' }) => {
               'No description'
             }
             date={
-              meeting.state.startsAt.toLocaleString() ||
-              meeting.start_time.toLocaleString()
+              (meeting as Call).state?.startsAt?.toLocaleString() ||
+              (meeting as CallRecording).start_time.toLocaleString()
             }
             isPreviousMeeting={type === 'ended'}
             buttonIcon1={type === 'recordings' ? '/icons/play.svg' : undefined}
             handleClick={
               type === 'recordings'
-                ? () => router.push(`${meeting.url}`)
-                : () => router.push(`/meeting/${meeting.id}`)
+                ? () => router.push(`${(meeting as CallRecording).url}`)
+                : () => router.push(`/meeting/${(meeting as Call).id}`)
             }
             link={
               type === 'recordings'
-                ? meeting.url
-                : `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${meeting.id}`
+                ? (meeting as CallRecording).url
+                : `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${
+                    (meeting as Call).id
+                  }`
             }
             buttonText={type === 'recordings' ? 'Play' : 'Start'}
           />
