@@ -67,7 +67,7 @@ const PersonalRoom = () => {
         <Button
           className="bg-dark-3"
           onClick={() => {
-            navigator.clipboard.writeText(meetingId!);
+            navigator.clipboard.writeText(meetingLink);
             toast({
               title: 'Link Copied'
             });
